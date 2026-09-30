@@ -1,0 +1,66 @@
+{
+  "run_id": "batch-100",
+  "started_at": "2026-09-30T11:39:12+00:00",
+  "finished_at": "2026-09-30T14:45:38+00:00",
+  "settings": {
+    "model": "claude-opus-5-5",
+    "effort": "medium",
+    "max_tokens": 8192,
+    "few_shot": true,
+    "strict_tools": true,
+    "max_attempts": 3,
+    "retry_unresolvable": false,
+    "max_transport_retries": 2,
+    "chunk_token_budget": 6000,
+    "review_threshold": 0.75,
+    "critical_fields": [
+      "sample_size",
+      "doi",
+      "study_type"
+    ],
+    "critical_threshold": 0.85,
+    "sla_hours": 4.0,
+    "poll_seconds": 30.0,
+    "data_dir": "data",
+    "runs_dir": "runs"
+  },
+  "documents": 100,
+  "sla": {
+    "rounds": [
+      {
+        "number": 1,
+        "mode": "batch",
+        "requests": 100,
+        "started_at": 1790768353.12389,
+        "ended_at": 1790776491.698799,
+        "batch_id": "msgbatch_014L5D2niW17zHk1F2VpnMx8",
+        "reason": "estimated batch time 1.0 h fits in the remaining 4.0 h",
+        "seconds": 8138.6
+      },
+      {
+        "number": 2,
+        "mode": "sync",
+        "requests": 15,
+        "started_at": 1790776820.9544399,
+        "ended_at": 1790779538.301215,
+        "batch_id": null,
+        "reason": "estimated batch time 3.4 h exceeds the remaining 1.6 h",
+        "seconds": 2717.3
+      }
+    ],
+    "total_seconds": 11185.2,
+    "sla_seconds": 14400.0,
+    "sla_used_pct": 77.7,
+    "met": true,
+    "batch_rounds": 1,
+    "sync_rounds": 1,
+    "worst_case_batch_only_seconds": 86400
+  },
+  "usage": {
+    "input_tokens": 260784,
+    "output_tokens": 141807,
+    "cache_write_tokens": 148310,
+    "cache_read_tokens": 496493,
+    "cost_usd": 2.8592
+  }
+}

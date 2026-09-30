@@ -1,0 +1,81 @@
+[project]
+name = "structured-data-extraction-pipeline"
+version = "1.0.0"
+description = "Schema-first document extraction with Claude: tool_use structured output, validation-retry loops, Message Batches at scale, and confidence-based human review."
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+requires-python = ">=3.12"
+authors = [{ name = "Jagoul" }]
+keywords = ["claude", "anthropic", "llm", "structured-output", "data-extraction", "json-schema", "batch-processing"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Typing :: Typed",
+]
+dependencies = [
+    "anthropic>=1.8",
+    "jsonschema>=4.23",
+    "pydantic>=2.9",
+    "python-dotenv>=1.0",
+    "rich>=13.0",
+    "typer>=0.12",
+]
+
+[project.urls]
+Repository = "https://github.com/Jagoul/structured-data-extraction-pipeline"
+Issues = "https://github.com/Jagoul/structured-data-extraction-pipeline/issues"
+
+[project.scripts]
+extractor = "extraction_pipeline.cli:app"
+
+[build-system]
+requires = ["uv_build>=0.12.15,<0.13.0"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-name = "extraction_pipeline"
+
+[dependency-groups]
+dev = [
+    "mypy>=1.13",
+    "pre-commit>=4.0",
+    "pytest>=8.0",
+    "pytest-cov>=5.0",
+    "ruff>=0.6",
+    "types-jsonschema>=4.23",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-m 'not live' --strict-markers"
+markers = [
+    "live: calls the real Claude API (needs ANTHROPIC_API_KEY); run with `pytest -m live`",
+]
+
+[tool.coverage.run]
+source = ["extraction_pipeline"]
+branch = true
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = true
+exclude_also = ["if __name__ == .__main__.:", "if TYPE_CHECKING:"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM", "RUF", "PT"]
+ignore = ["SIM905"]  # "a b c".split() reads better than long list literals
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+files = ["src"]
+plugins = ["pydantic.mypy"]

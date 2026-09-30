@@ -1,0 +1,30 @@
+name: Bug report
+description: Something extracted, validated, or routed incorrectly
+labels: ["bug"]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: What you ran, what you expected, and what you got instead.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: How to reproduce
+      description: The command, and a minimal document if you can share one (no confidential data).
+      render: shell
+    validations:
+      required: true
+  - type: textarea
+    id: output
+    attributes:
+      label: Relevant output
+      description: The events trace from `extractor extract`, or the lines from `results.jsonl`.
+      render: text
+  - type: input
+    id: version
+    attributes:
+      label: Version and model
+      placeholder: "1.0.0, claude-opus-5-5"

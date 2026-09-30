@@ -1,0 +1,20 @@
+name: Feature request
+description: A new field, document format, routing rule, or pipeline capability
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What can't you do today, and why does it matter downstream?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposal
+      description: How you'd like it to work. Note any schema changes, since the schema is a published contract.
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered

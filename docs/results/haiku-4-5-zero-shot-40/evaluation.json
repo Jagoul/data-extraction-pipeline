@@ -1,0 +1,185 @@
+{
+  "documents": 40,
+  "overall_accuracy": 0.989,
+  "field_accuracy": {
+    "title": 1.0,
+    "authors": 1.0,
+    "publication_year": 1.0,
+    "doi": 1.0,
+    "study_type": 1.0,
+    "sample_size": 0.975,
+    "funding_source": 1.0,
+    "primary_outcome": 0.925,
+    "cited_works": 1.0
+  },
+  "doc_type_field_accuracy": {
+    "bibliography_article": {
+      "title": 1.0,
+      "authors": 1.0,
+      "publication_year": 1.0,
+      "doi": 1.0,
+      "study_type": 1.0,
+      "sample_size": 1.0,
+      "funding_source": 1.0,
+      "primary_outcome": 0.875,
+      "cited_works": 1.0
+    },
+    "conference_poster": {
+      "title": 1.0,
+      "authors": 1.0,
+      "publication_year": 1.0,
+      "doi": 1.0,
+      "study_type": 1.0,
+      "sample_size": 1.0,
+      "funding_source": 1.0,
+      "primary_outcome": 1.0,
+      "cited_works": 1.0
+    },
+    "long_report": {
+      "title": 1.0,
+      "authors": 1.0,
+      "publication_year": 1.0,
+      "doi": 1.0,
+      "study_type": 1.0,
+      "sample_size": 1.0,
+      "funding_source": 1.0,
+      "primary_outcome": 1.0,
+      "cited_works": 1.0
+    },
+    "narrative_abstract": {
+      "title": 1.0,
+      "authors": 1.0,
+      "publication_year": 1.0,
+      "doi": 1.0,
+      "study_type": 1.0,
+      "sample_size": 0.857,
+      "funding_source": 1.0,
+      "primary_outcome": 0.714,
+      "cited_works": 1.0
+    },
+    "press_release": {
+      "title": 1.0,
+      "authors": 1.0,
+      "publication_year": 1.0,
+      "doi": 1.0,
+      "study_type": 1.0,
+      "sample_size": 1.0,
+      "funding_source": 1.0,
+      "primary_outcome": 1.0,
+      "cited_works": 1.0
+    },
+    "structured_table": {
+      "title": 1.0,
+      "authors": 1.0,
+      "publication_year": 1.0,
+      "doi": 1.0,
+      "study_type": 1.0,
+      "sample_size": 1.0,
+      "funding_source": 1.0,
+      "primary_outcome": 1.0,
+      "cited_works": 1.0
+    },
+    "technical_note": {
+      "title": 1.0,
+      "authors": 1.0,
+      "publication_year": 1.0,
+      "doi": 1.0,
+      "study_type": 1.0,
+      "sample_size": 1.0,
+      "funding_source": 1.0,
+      "primary_outcome": 1.0,
+      "cited_works": 1.0
+    }
+  },
+  "inconsistent_cells": [
+    {
+      "doc_type": "narrative_abstract",
+      "field": "primary_outcome",
+      "accuracy": 0.714,
+      "field_overall": 0.925
+    }
+  ],
+  "null_handling": {
+    "publication_year": {
+      "truth_present": 36,
+      "present": 36,
+      "truth_null": 4,
+      "correct_null": 4,
+      "fabrication_rate": 0.0
+    },
+    "doi": {
+      "truth_present": 26,
+      "present": 26,
+      "truth_null": 14,
+      "correct_null": 14,
+      "fabrication_rate": 0.0
+    },
+    "sample_size": {
+      "truth_present": 33,
+      "present": 33,
+      "truth_null": 7,
+      "correct_null": 6,
+      "fabricated": 1,
+      "fabrication_rate": 0.143
+    },
+    "funding_source": {
+      "truth_null": 16,
+      "correct_null": 16,
+      "truth_present": 24,
+      "present": 24,
+      "fabrication_rate": 0.0
+    },
+    "primary_outcome": {
+      "truth_null": 11,
+      "correct_null": 8,
+      "truth_present": 29,
+      "present": 29,
+      "fabricated": 3,
+      "fabrication_rate": 0.273
+    }
+  },
+  "calibration": {
+    "high": {
+      "fields": 316,
+      "accuracy": 0.994
+    },
+    "low": {
+      "fields": 4,
+      "accuracy": 0.5
+    }
+  },
+  "routing_accuracy": {
+    "auto_accept": {
+      "fields": 324,
+      "accuracy": 0.997
+    },
+    "human_review": {
+      "fields": 36,
+      "accuracy": 0.917
+    }
+  },
+  "mean_citation_f1": 1.0,
+  "retries": {
+    "format": {
+      "seen": 3,
+      "retried": 3,
+      "resolved": 3
+    },
+    "incomplete": {
+      "seen": 2,
+      "retried": 2,
+      "resolved": 2
+    },
+    "missing_required": {
+      "seen": 4,
+      "retried": 2,
+      "persisted": 2,
+      "not_retried": 2
+    },
+    "ungrounded": {
+      "seen": 1,
+      "retried": 1,
+      "resolved": 1
+    }
+  }
+}

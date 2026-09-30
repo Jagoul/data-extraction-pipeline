@@ -1,0 +1,76 @@
+{
+  "run_id": "haiku-fix",
+  "started_at": "2026-09-30T15:00:55+00:00",
+  "finished_at": "2026-09-30T16:04:49+00:00",
+  "settings": {
+    "model": "claude-haiku-4-5",
+    "effort": null,
+    "max_tokens": 8192,
+    "few_shot": true,
+    "strict_tools": true,
+    "max_attempts": 3,
+    "retry_unresolvable": false,
+    "max_transport_retries": 2,
+    "chunk_token_budget": 6000,
+    "review_threshold": 0.75,
+    "critical_fields": [
+      "sample_size",
+      "doi",
+      "study_type"
+    ],
+    "critical_threshold": 0.85,
+    "sla_hours": 4.0,
+    "poll_seconds": 20.0,
+    "data_dir": "data",
+    "runs_dir": "runs"
+  },
+  "documents": 6,
+  "sla": {
+    "rounds": [
+      {
+        "number": 1,
+        "mode": "sync",
+        "requests": 6,
+        "started_at": 1790780455.6281059,
+        "ended_at": 1790784018.1034932,
+        "batch_id": null,
+        "reason": "synchronous mode requested",
+        "seconds": 3562.5
+      },
+      {
+        "number": 2,
+        "mode": "sync",
+        "requests": 12,
+        "started_at": 1790784018.1043599,
+        "ended_at": 1790784228.431658,
+        "batch_id": null,
+        "reason": "synchronous mode requested",
+        "seconds": 210.3
+      },
+      {
+        "number": 3,
+        "mode": "sync",
+        "requests": 4,
+        "started_at": 1790784228.432568,
+        "ended_at": 1790784289.271038,
+        "batch_id": null,
+        "reason": "synchronous mode requested",
+        "seconds": 60.8
+      }
+    ],
+    "total_seconds": 3833.6,
+    "sla_seconds": 14400.0,
+    "sla_used_pct": 26.6,
+    "met": true,
+    "batch_rounds": 0,
+    "sync_rounds": 3,
+    "worst_case_batch_only_seconds": 0
+  },
+  "usage": {
+    "input_tokens": 184341,
+    "output_tokens": 60811,
+    "cache_write_tokens": 4551,
+    "cache_read_tokens": 54612,
+    "cost_usd": 0.4995
+  }
+}

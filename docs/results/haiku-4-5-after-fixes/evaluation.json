@@ -1,0 +1,118 @@
+{
+  "documents": 6,
+  "overall_accuracy": 0.963,
+  "field_accuracy": {
+    "title": 1.0,
+    "authors": 1.0,
+    "publication_year": 1.0,
+    "doi": 1.0,
+    "study_type": 1.0,
+    "sample_size": 1.0,
+    "funding_source": 1.0,
+    "primary_outcome": 1.0,
+    "cited_works": 0.667
+  },
+  "doc_type_field_accuracy": {
+    "conference_poster": {
+      "title": 1.0,
+      "authors": 1.0,
+      "publication_year": 1.0,
+      "doi": 1.0,
+      "study_type": 1.0,
+      "sample_size": 1.0,
+      "funding_source": 1.0,
+      "primary_outcome": 1.0,
+      "cited_works": 1.0
+    },
+    "long_report": {
+      "title": 1.0,
+      "authors": 1.0,
+      "publication_year": 1.0,
+      "doi": 1.0,
+      "study_type": 1.0,
+      "sample_size": 1.0,
+      "funding_source": 1.0,
+      "primary_outcome": 1.0,
+      "cited_works": 0.5
+    }
+  },
+  "inconsistent_cells": [
+    {
+      "doc_type": "long_report",
+      "field": "cited_works",
+      "accuracy": 0.5,
+      "field_overall": 0.667
+    }
+  ],
+  "null_handling": {
+    "publication_year": {
+      "truth_null": 3,
+      "correct_null": 3,
+      "truth_present": 3,
+      "present": 3,
+      "fabrication_rate": 0.0
+    },
+    "doi": {
+      "truth_present": 5,
+      "present": 5,
+      "truth_null": 1,
+      "correct_null": 1,
+      "fabrication_rate": 0.0
+    },
+    "sample_size": {
+      "truth_present": 6,
+      "present": 6,
+      "fabrication_rate": null
+    },
+    "funding_source": {
+      "truth_present": 5,
+      "present": 5,
+      "truth_null": 1,
+      "correct_null": 1,
+      "fabrication_rate": 0.0
+    },
+    "primary_outcome": {
+      "truth_present": 5,
+      "present": 5,
+      "truth_null": 1,
+      "correct_null": 1,
+      "fabrication_rate": 0.0
+    }
+  },
+  "calibration": {
+    "high": {
+      "fields": 48,
+      "accuracy": 1.0
+    },
+    "low": {
+      "fields": 0,
+      "accuracy": null
+    }
+  },
+  "routing_accuracy": {
+    "auto_accept": {
+      "fields": 27,
+      "accuracy": 1.0
+    },
+    "human_review": {
+      "fields": 27,
+      "accuracy": 0.926
+    }
+  },
+  "mean_citation_f1": 0.976,
+  "retries": {
+    "incomplete": {
+      "seen": 5,
+      "retried": 3,
+      "resolved": 2,
+      "unresolved_final": 2,
+      "persisted": 1
+    },
+    "ungrounded": {
+      "seen": 4,
+      "retried": 4,
+      "resolved": 3,
+      "persisted": 1
+    }
+  }
+}

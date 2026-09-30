@@ -1,0 +1,337 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Jagoul/structured-data-extraction-pipeline/schemas/study_record.schema.json",
+  "title": "StudyRecord",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Full title of the study, copied verbatim."
+    },
+    "authors": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "description": "Every author, in document order, as written (e.g. 'Maria Silva')."
+    },
+    "publication_year": {
+      "description": "Four-digit year of publication. null if the document does not state it.",
+      "anyOf": [
+        {
+          "type": "integer",
+          "minimum": 1900,
+          "maximum": 2100
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "doi": {
+      "description": "Bare DOI starting with '10.' (strip any https://doi.org/ prefix). null if the document has no DOI.",
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "^10\\.\\d{4,9}/\\S+$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "study_type": {
+      "type": "string",
+      "enum": [
+        "randomized_controlled_trial",
+        "cohort_study",
+        "case_control_study",
+        "cross_sectional_study",
+        "systematic_review",
+        "meta_analysis",
+        "qualitative_study",
+        "other"
+      ],
+      "description": "Study design. Use 'other' only when no listed design fits, and then describe it in study_type_detail."
+    },
+    "study_type_detail": {
+      "description": "Required when study_type is 'other': the design as the document names it (e.g. 'Delphi consensus study'). Otherwise null.",
+      "anyOf": [
+        {
+          "type": "string",
+          "minLength": 3
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "sample_size": {
+      "description": "Number of participants analysed, as an integer. null if not reported.",
+      "anyOf": [
+        {
+          "type": "integer",
+          "minimum": 1
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "funding_source": {
+      "description": "Who funded the study. null if the document does not say.",
+      "anyOf": [
+        {
+          "type": "string",
+          "minLength": 2
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "primary_outcome": {
+      "description": "The primary outcome measure. null if not stated.",
+      "anyOf": [
+        {
+          "type": "string",
+          "minLength": 3
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "key_findings": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 5,
+      "items": {
+        "type": "string",
+        "minLength": 3
+      },
+      "description": "One to five main findings, each one sentence."
+    },
+    "cited_works": {
+      "type": "array",
+      "description": "Every work the document cites, whether as inline author-year citations or as a numbered reference list. Empty if it cites nothing.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "first_author": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Surname of the first author."
+          },
+          "year": {
+            "description": "Year of the cited work, or null if not given.",
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 1900,
+                "maximum": 2100
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "first_author",
+          "year"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "keywords": {
+      "type": "array",
+      "maxItems": 10,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "description": "Optional. Keywords the document lists explicitly."
+    },
+    "trial_registration": {
+      "description": "Optional. ClinicalTrials.gov ID such as NCT01234567, or null.",
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "^NCT\\d{8}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "field_confidence": {
+      "type": "object",
+      "description": "Your confidence from 0.0 to 1.0 that each field is correct, including when the correct value is null.",
+      "properties": {
+        "title": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "authors": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "publication_year": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "doi": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "study_type": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "sample_size": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "funding_source": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "primary_outcome": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
+      },
+      "required": [
+        "title",
+        "authors",
+        "publication_year",
+        "doi",
+        "study_type",
+        "sample_size",
+        "funding_source",
+        "primary_outcome"
+      ],
+      "additionalProperties": false
+    },
+    "evidence": {
+      "type": "object",
+      "description": "For each field, the exact sentence or table cell from the document that supports its value, copied verbatim. null when the field is null.",
+      "properties": {
+        "publication_year": {
+          "description": "Verbatim quote for publication_year.",
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 3
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "doi": {
+          "description": "Verbatim quote for doi.",
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 3
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "sample_size": {
+          "description": "Verbatim quote for sample_size.",
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 3
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "funding_source": {
+          "description": "Verbatim quote for funding_source.",
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 3
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "primary_outcome": {
+          "description": "Verbatim quote for primary_outcome.",
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 3
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "publication_year",
+        "doi",
+        "sample_size",
+        "funding_source",
+        "primary_outcome"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "title",
+    "authors",
+    "publication_year",
+    "doi",
+    "study_type",
+    "study_type_detail",
+    "sample_size",
+    "funding_source",
+    "primary_outcome",
+    "key_findings",
+    "cited_works",
+    "field_confidence",
+    "evidence"
+  ],
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "study_type": {
+            "const": "other"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "study_type_detail": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  ]
+}

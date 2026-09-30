@@ -1,0 +1,159 @@
+{
+  "documents": 100,
+  "overall_accuracy": 1.0,
+  "field_accuracy": {
+    "title": 1.0,
+    "authors": 1.0,
+    "publication_year": 1.0,
+    "doi": 1.0,
+    "study_type": 1.0,
+    "sample_size": 1.0,
+    "funding_source": 1.0,
+    "primary_outcome": 1.0,
+    "cited_works": 1.0
+  },
+  "doc_type_field_accuracy": {
+    "bibliography_article": {
+      "title": 1.0,
+      "authors": 1.0,
+      "publication_year": 1.0,
+      "doi": 1.0,
+      "study_type": 1.0,
+      "sample_size": 1.0,
+      "funding_source": 1.0,
+      "primary_outcome": 1.0,
+      "cited_works": 1.0
+    },
+    "conference_poster": {
+      "title": 1.0,
+      "authors": 1.0,
+      "publication_year": 1.0,
+      "doi": 1.0,
+      "study_type": 1.0,
+      "sample_size": 1.0,
+      "funding_source": 1.0,
+      "primary_outcome": 1.0,
+      "cited_works": 1.0
+    },
+    "long_report": {
+      "title": 1.0,
+      "authors": 1.0,
+      "publication_year": 1.0,
+      "doi": 1.0,
+      "study_type": 1.0,
+      "sample_size": 1.0,
+      "funding_source": 1.0,
+      "primary_outcome": 1.0,
+      "cited_works": 1.0
+    },
+    "narrative_abstract": {
+      "title": 1.0,
+      "authors": 1.0,
+      "publication_year": 1.0,
+      "doi": 1.0,
+      "study_type": 1.0,
+      "sample_size": 1.0,
+      "funding_source": 1.0,
+      "primary_outcome": 1.0,
+      "cited_works": 1.0
+    },
+    "press_release": {
+      "title": 1.0,
+      "authors": 1.0,
+      "publication_year": 1.0,
+      "doi": 1.0,
+      "study_type": 1.0,
+      "sample_size": 1.0,
+      "funding_source": 1.0,
+      "primary_outcome": 1.0,
+      "cited_works": 1.0
+    },
+    "structured_table": {
+      "title": 1.0,
+      "authors": 1.0,
+      "publication_year": 1.0,
+      "doi": 1.0,
+      "study_type": 1.0,
+      "sample_size": 1.0,
+      "funding_source": 1.0,
+      "primary_outcome": 1.0,
+      "cited_works": 1.0
+    },
+    "technical_note": {
+      "title": 1.0,
+      "authors": 1.0,
+      "publication_year": 1.0,
+      "doi": 1.0,
+      "study_type": 1.0,
+      "sample_size": 1.0,
+      "funding_source": 1.0,
+      "primary_outcome": 1.0,
+      "cited_works": 1.0
+    }
+  },
+  "inconsistent_cells": [],
+  "null_handling": {
+    "publication_year": {
+      "truth_present": 93,
+      "present": 93,
+      "truth_null": 7,
+      "correct_null": 7,
+      "fabrication_rate": 0.0
+    },
+    "doi": {
+      "truth_present": 56,
+      "present": 56,
+      "truth_null": 44,
+      "correct_null": 44,
+      "fabrication_rate": 0.0
+    },
+    "sample_size": {
+      "truth_present": 82,
+      "present": 82,
+      "truth_null": 18,
+      "correct_null": 18,
+      "fabrication_rate": 0.0
+    },
+    "funding_source": {
+      "truth_null": 45,
+      "correct_null": 45,
+      "truth_present": 55,
+      "present": 55,
+      "fabrication_rate": 0.0
+    },
+    "primary_outcome": {
+      "truth_null": 21,
+      "correct_null": 21,
+      "truth_present": 79,
+      "present": 79,
+      "fabrication_rate": 0.0
+    }
+  },
+  "calibration": {
+    "high": {
+      "fields": 788,
+      "accuracy": 1.0
+    },
+    "low": {
+      "fields": 12,
+      "accuracy": 1.0
+    }
+  },
+  "routing_accuracy": {
+    "auto_accept": {
+      "fields": 711,
+      "accuracy": 1.0
+    },
+    "human_review": {
+      "fields": 189,
+      "accuracy": 1.0
+    }
+  },
+  "mean_citation_f1": 1.0,
+  "retries": {
+    "missing_required": {
+      "seen": 3,
+      "not_retried": 3
+    }
+  }
+}
