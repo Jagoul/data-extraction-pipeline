@@ -227,25 +227,33 @@ grounding layer now requires a year to appear as a date in its quote, not inside
 
 Every response passes three layers, and every problem is labelled by whether a retry can fix it.
 
-![Validation and the retry loop](docs/diagrams/readme-04-validation-and-the-retry-loop.png)
+<p align="center"><img src="docs/diagrams/readme-04-validation-and-the-retry-loop.png" alt="Validation and the retry loop" width="760"></p>
 
 <details>
 <summary>Diagram source (Mermaid)</summary>
 
 ```mermaid
-flowchart TD
-    response["tool_use input"]:::core --> schema["① JSON Schema (Draft 2020-12)<br/>patterns · bounds · required keys"]:::core
-    schema --> typed["② Typed record (Pydantic)<br/>other ⇒ detail · confidence in 0..1"]:::core
-    typed --> ground["③ Grounding<br/>quote is in the document · value matches quote"]:::core
-    ground --> kinds{"Issues?"}:::gate
-    kinds -->|"none"| accept(["Accepted"]):::out
-    kinds -->|"format"| fix["Retry with the exact error<br/>and the expected format"]:::retry
-    kinds -->|"ungrounded"| fix2["Retry: quote it verbatim<br/>or return null"]:::retry
-    kinds -->|"missing_required"| human(["Human review<br/>never retried"]):::human
-    kinds -->|"incomplete"| chunked["Resubmit as chunks<br/>merge cited works"]:::retry
-    chunked --> response
-    fix & fix2 -->|"attempts left"| response
-    fix & fix2 -->|"budget spent"| human
+%%{init: {"themeVariables": {"fontSize": "15px"}, "flowchart": {"nodeSpacing": 26, "rankSpacing": 30, "padding": 10}}}%%
+%% width: 760
+flowchart LR
+    resp["<b>tool_use</b><br/>input"]:::core
+    l1["<b>① JSON Schema</b><br/>patterns, bounds,<br/>required keys"]:::core
+    l2["<b>② Typed record</b><br/>other needs detail,<br/>scores in range"]:::core
+    l3["<b>③ Grounding</b><br/>quote is in the<br/>source, matches value"]:::core
+    issues{"Issues?"}:::gate
+    ok(["Accepted"]):::out
+    retry["<b>Retry</b><br/>exact error +<br/>expected format"]:::retry
+    chunk["<b>Resubmit as chunks</b><br/>merge cited works"]:::retry
+    human(["<b>Human review</b><br/>never retried"]):::human
+
+    resp --> l1 --> l2 --> l3 --> issues
+    issues -->|"none"| ok
+    issues -->|"format or ungrounded"| retry
+    issues -->|"incomplete"| chunk
+    issues -->|"missing_required"| human
+    retry -->|"attempts left"| resp
+    retry -->|"budget spent"| human
+    chunk -->|"next round"| resp
 
     classDef core fill:#e0f2fe,stroke:#0284c7,color:#0c4a6e
     classDef gate fill:#fef3c7,stroke:#d97706,color:#78350f
