@@ -2,10 +2,10 @@
 
 # Structured Data Extraction Pipeline
 
-**Schema-first document extraction with Claude — strict tool use, validation-retry loops,<br/>
+**Schema-first document extraction with Claude: strict tool use, validation-retry loops,<br/>
 Message Batches at scale, and confidence-based human review.**
 
-[![CI](https://github.com/Jagoul/structured-data-extraction-pipeline/actions/workflows/ci.yml/badge.svg)](https://github.com/Jagoul/structured-data-extraction-pipeline/actions/workflows/ci.yml)
+[![CI](https://img.shields.io/github/actions/workflow/status/Jagoul/data-extraction-pipeline/ci.yml?branch=main&label=CI&logo=github)](https://github.com/Jagoul/data-extraction-pipeline/actions/workflows/ci.yml)
 ![Python](https://img.shields.io/badge/python-3.12%20%7C%203.13-3776AB?logo=python&logoColor=white)
 ![Claude](https://img.shields.io/badge/Claude-Opus%205.5-D97757)
 ![Types](https://img.shields.io/badge/mypy-strict-2A6DB2)
@@ -14,57 +14,28 @@ Message Batches at scale, and confidence-based human review.**
 
 </div>
 
-![Structured Data Extraction Pipeline](docs/diagrams/readme-01-structured-data-extraction-pipeline.png)
+<p align="center"><img src="docs/diagrams/readme-01-structured-data-extraction-pipeline.png" alt="Structured Data Extraction Pipeline" width="760"></p>
 
 <details>
 <summary>Diagram source (Mermaid)</summary>
 
 ```mermaid
-flowchart TB
-    docs[("Unstructured documents<br/>abstracts · tables · posters · press releases · long reports")]:::data
+%%{init: {"themeVariables": {"fontSize": "15px"}, "flowchart": {"nodeSpacing": 28, "rankSpacing": 34, "padding": 10}}}%%
+%% width: 760
+flowchart LR
+    docs[("<b>Documents</b><br/>abstracts, tables, posters,<br/>press releases, long reports")]:::data
+    req["<b>① Request</b><br/>5 few-shot examples<br/>strict tool schema"]:::prompt
+    run["<b>② Run</b><br/>Batches API (50% cost)<br/>SLA-aware: batch or sync"]:::claude
+    val["<b>③ Validate</b><br/>JSON Schema · typed record<br/>grounding in the source"]:::core
+    fix["<b>④ Recover</b><br/>retry with the exact error<br/>chunk long documents"]:::retry
+    route{"<b>⑤ Route</b><br/>confidence +<br/>open issues"}:::gate
+    ok[("<b>records.jsonl</b><br/>downstream systems")]:::out
+    hr[("<b>review_queue.jsonl</b><br/>human reviewers")]:::human
 
-    subgraph request["① Build the request"]
-        direction LR
-        prompt["System prompt + 5 few-shot examples<br/><i>prompt-cached prefix</i>"]:::prompt
-        tool["record_study tool<br/><i>strict JSON Schema · tool_choice auto</i>"]:::prompt
-    end
-
-    subgraph run["② Run in rounds"]
-        direction LR
-        runner["Round runner<br/><i>every request keyed by custom_id</i>"]:::core
-        sla{"SLA planner<br/>does a batch still fit?"}:::gate
-        batches["Message Batches API<br/><i>50% cost</i>"]:::claude
-        sync["Messages API<br/><i>SLA fallback</i>"]:::claude
-        runner --> sla
-        sla -->|"fits"| batches
-        sla -->|"too slow"| sync
-    end
-
-    subgraph check["③ Validate every response"]
-        direction LR
-        parse["Parse outcome<br/><i>tool call · truncated · refusal</i>"]:::core
-        validate["JSON Schema → typed record<br/>→ grounding in the source"]:::core
-        parse --> validate
-    end
-
-    subgraph recover["④ Recover what a retry can fix"]
-        direction LR
-        retry["Correction request<br/><i>document + failed extraction + errors</i>"]:::retry
-        chunk["Chunk oversized document<br/><i>merge cited works</i>"]:::retry
-    end
-
-    router{"⑤ Review router<br/>field confidence · open issues"}:::gate
-    records[("records.jsonl<br/>→ downstream systems")]:::out
-    review[("review_queue.jsonl<br/>→ human reviewers")]:::human
-
-    docs --> request --> runner
-    batches & sync --> parse
-    validate -->|"format or ungrounded"| retry
-    parse -->|"hit max_tokens"| chunk
-    recover -->|"next round"| runner
-    validate -->|"valid, or information absent"| router
-    router -->|"confident"| records
-    router -->|"low confidence or open issue"| review
+    docs --> req --> run --> val --> route
+    val -->|"fixable"| fix -->|"next round"| run
+    route -->|"confident"| ok
+    route -->|"needs a person"| hr
 
     classDef data fill:#f1f5f9,stroke:#475569,color:#0f172a
     classDef prompt fill:#f3e8ff,stroke:#7c3aed,color:#2e1065
@@ -74,10 +45,6 @@ flowchart TB
     classDef retry fill:#ffedd5,stroke:#ea580c,color:#7c2d12
     classDef out fill:#dcfce7,stroke:#16a34a,color:#14532d
     classDef human fill:#fee2e2,stroke:#dc2626,color:#7f1d1d
-    style request fill:#fafafa,stroke:#cbd5e1
-    style run fill:#fafafa,stroke:#cbd5e1
-    style check fill:#fafafa,stroke:#cbd5e1
-    style recover fill:#fafafa,stroke:#cbd5e1
 ```
 
 </details>
@@ -199,7 +166,7 @@ source where fields are often missing, formats vary, and a fabricated sample siz
 | `publication_year`, `doi`, `sample_size`, `funding_source`, `primary_outcome` | **required key, nullable value** | `null` when the document doesn't say. Never inferred. |
 | `study_type` + `study_type_detail` | **enum + "other" + detail** | 7 designs plus `other`; `other` requires the document's own name for the design |
 | `keywords`, `trial_registration` | **optional** | may be omitted entirely |
-| `field_confidence` | **required** | 0–1 per scored field, including confidence that a null is correct |
+| `field_confidence` | **required** | 0 to 1 per scored field, including confidence that a null is correct |
 | `evidence` | **required** | verbatim quote per grounded field; `null` for null fields |
 
 **Two schemas, one source of truth.** `strict: true` guarantees structure, but it does not accept
@@ -504,8 +471,8 @@ Requirements: Python 3.12+, [uv](https://docs.astral.sh/uv/), and an
 [Anthropic API key](https://console.anthropic.com/) for live runs.
 
 ```bash
-git clone https://github.com/Jagoul/structured-data-extraction-pipeline.git
-cd structured-data-extraction-pipeline
+git clone https://github.com/Jagoul/data-extraction-pipeline.git
+cd data-extraction-pipeline
 uv sync                                   # install
 cp .env.example .env                      # then set ANTHROPIC_API_KEY in .env
 make check                                # lint, strict types, 130 offline tests (no key needed)
@@ -554,7 +521,7 @@ Each run writes a self-contained folder:
 runs/<run_id>/
 ├── run.json            settings, timings, SLA report, token usage, cost
 ├── results.jsonl       every document: status, extraction, attempts with issues, event trace
-├── records.jsonl       auto-accepted records only — validated against the published schema
+├── records.jsonl       auto-accepted records only, validated against the published schema
 ├── review_queue.jsonl  documents for a human, with reasons and fields to check
 ├── evaluation.json     accuracy against ground truth, retry statistics
 └── report.md           the human-readable summary
@@ -581,7 +548,7 @@ All settings have safe defaults and can be overridden with environment variables
 
 | Variable | Default | Purpose |
 |---|---|---|
-| `ANTHROPIC_API_KEY` | – | API key (required for live runs) |
+| `ANTHROPIC_API_KEY` | none | API key (required for live runs) |
 | `EXTRACTOR_MODEL` | `claude-opus-5-5` | Model for every request |
 | `EXTRACTOR_EFFORT` | `medium` | `low` · `medium` · `high` · `xhigh` · `max` |
 | `EXTRACTOR_MAX_TOKENS` | `8192` | Output cap; a response that hits it is chunked |

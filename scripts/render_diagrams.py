@@ -21,12 +21,17 @@ from pathlib import Path
 
 OUT_DIR = Path("docs/diagrams")
 SUMMARY = "Diagram source (Mermaid)"
+# An already-rendered diagram is either a Markdown image or, when the source asks for a display
+# width, a centred <img>. Both are followed by the collapsed Mermaid source.
 BLOCK = re.compile(
-    r"!\[(?P<alt>[^\]]*)\]\((?P<path>docs/diagrams/[^)]+\.png)\)\n\n"
+    r"(?:!\[(?P<alt>[^\]]*)\]\((?P<path>docs/diagrams/[^)]+\.png)\)"
+    r'|<p align="center"><img src="(?P<hpath>docs/diagrams/[^"]+\.png)" alt="(?P<halt>[^"]*)" '
+    r'width="\d+"></p>)\n\n'
     r"<details>\n<summary>[^<]*</summary>\n\n```mermaid\n(?P<src>.*?)```\n\n</details>"
     r"|```mermaid\n(?P<bare>.*?)```",
     re.DOTALL,
 )
+WIDTH_HINT = re.compile(r"^%%\s*width:\s*(\d+)\s*$", re.MULTILINE)
 HEADING = re.compile(r"^#{1,6}\s+(.+)$", re.MULTILINE)
 
 
@@ -64,15 +69,22 @@ def process(markdown: Path) -> int:
         nonlocal counter
         counter += 1
         source = match.group("src") or match.group("bare")
-        alt = match.group("alt") or heading_before(text, match.start())
+        alt = match.group("alt") or match.group("halt") or heading_before(text, match.start())
         path = (
             match.group("path")
+            or match.group("hpath")
             or (OUT_DIR / f"{markdown.stem.lower()}-{counter:02d}-{slugify(alt)}.png").as_posix()
         )
         render(source, markdown.parent / path)
         print(f"  {path}")
+        hint = WIDTH_HINT.search(source)
+        image = (
+            f'<p align="center"><img src="{path}" alt="{alt}" width="{hint.group(1)}"></p>'
+            if hint
+            else f"![{alt}]({path})"
+        )
         return (
-            f"![{alt}]({path})\n\n<details>\n<summary>{SUMMARY}</summary>\n\n"
+            f"{image}\n\n<details>\n<summary>{SUMMARY}</summary>\n\n"
             f"```mermaid\n{source}```\n\n</details>"
         )
 

@@ -168,8 +168,7 @@ def _build_full_schema() -> dict[str, Any]:
     return {
         "$schema": "https://json-schema.org/draft/2020-12/schema",
         "$id": (
-            "https://github.com/Jagoul/structured-data-extraction-pipeline"
-            "/schemas/study_record.schema.json"
+            "https://github.com/Jagoul/data-extraction-pipeline/schemas/study_record.schema.json"
         ),
         "title": "StudyRecord",
         "type": "object",

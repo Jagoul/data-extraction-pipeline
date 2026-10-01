@@ -27,8 +27,8 @@ dependencies = [
 ]
 
 [project.urls]
-Repository = "https://github.com/Jagoul/structured-data-extraction-pipeline"
-Issues = "https://github.com/Jagoul/structured-data-extraction-pipeline/issues"
+Repository = "https://github.com/Jagoul/data-extraction-pipeline"
+Issues = "https://github.com/Jagoul/data-extraction-pipeline/issues"
 
 [project.scripts]
 extractor = "extraction_pipeline.cli:app"

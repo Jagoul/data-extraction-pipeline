@@ -3,7 +3,7 @@
 ## Reporting a vulnerability
 
 Please **do not** open a public issue for security problems. Use GitHub's
-[private vulnerability reporting](https://github.com/Jagoul/structured-data-extraction-pipeline/security/advisories/new)
+[private vulnerability reporting](https://github.com/Jagoul/data-extraction-pipeline/security/advisories/new)
 instead. You can expect an acknowledgement within a few days.
 
 ## Handling credentials

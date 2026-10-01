@@ -8,8 +8,8 @@ change must pass, and how to propose changes.
 Requirements: Python 3.12+ and [uv](https://docs.astral.sh/uv/).
 
 ```bash
-git clone https://github.com/Jagoul/structured-data-extraction-pipeline.git
-cd structured-data-extraction-pipeline
+git clone https://github.com/Jagoul/data-extraction-pipeline.git
+cd data-extraction-pipeline
 uv sync                      # creates .venv with runtime and dev dependencies
 uv run pre-commit install    # optional: run the checks on every commit
 ```
